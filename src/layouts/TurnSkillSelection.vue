@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, nextTick, toRaw, computed } from 'vue'
+  import { ref, nextTick, toRaw } from 'vue'
   import { useUiStore } from '@/store/ui'
   import { useSkillStore } from '@/store/axle'
   import { useCharStore } from '@/store/char'
@@ -10,6 +10,7 @@
   import { getAssetsFile } from '@/utils/assets/getAssetsFile'
   import { getTargetOptions } from '@/utils/state-getters/getTargetOptions'
   import { odOptions, getOdLevel } from '@/utils/axle/odOptions'
+  import { MAX_ROWS } from '@/utils/axle/axleLimits'
   import { isMobile } from '@/utils/browser/deviceDetector'
   import { cloneDeep } from 'lodash-es'
 
@@ -17,23 +18,18 @@
   const skillStore = useSkillStore()
   const charStore = useCharStore()
   const settingStore = useSettingStore()
-  const options = computed(() => {
-    const maxTurnNumber = Math.max(80, skillStore.turns.length)
-    return Array.from({ length: maxTurnNumber }, (_, i) => `T${i + 1}`)
+  const options = Array.from({ length: MAX_ROWS }, (_, i) => `T${i + 1}`)
+  const formattedOptions = options.map((option) => {
+    return {
+      value: option,
+      names: option,
+    }
   })
-  const formattedOptions = computed(() => {
-    return options.value.map((option) => {
-      return {
-        value: option,
-        names: option,
-      }
-    })
-  })
-  const turnOptions = computed(() => [
+  const turnOptions = [
     { value: 'Switch', names: 'Switch' },
     { value: '追加回合', names: { 'zh-TW': '追加回合', 'jp': '追加ターン', 'zh-CN-CN': '追加回合' } },
-    ...formattedOptions.value,
-  ])
+    ...formattedOptions,
+  ]
 
   const activeComponent = ref({ row: null, buttonKey: null })
 

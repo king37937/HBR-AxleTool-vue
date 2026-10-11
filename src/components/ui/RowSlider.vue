@@ -7,12 +7,12 @@
       v-model="uiStore.sliderRows"
       :disabled="!hasChar"
       :min="0"
-      :max="sliderMax"
+      :max="MAX_ROWS"
       :interval="1"
       :contained="true"
       :lazy="true"
       :drag-on-click="true"
-      :marks="[0, sliderMax]"
+      :marks="[0, MAX_ROWS]"
       @change="updateSkillsRows" />
   </div>
 </template>
@@ -23,6 +23,7 @@
   import { useSkillStore } from '@/store/axle'
   import { useCharStore } from '@/store/char'
   import VueSlider from 'vue-slider-component'
+  import { MAX_ROWS } from '@/utils/axle/axleLimits'
   import '@/style/slider/slider.css'
 
   const uiStore = useUiStore()
@@ -38,8 +39,6 @@
       Object.values(team).some((selection) => selection.character !== null && selection.style !== null),
     )
   })
-
-  const sliderMax = computed(() => Math.max(80, uiStore.sliderRows + 20))
 </script>
 
 <style scoped>
