@@ -7,12 +7,12 @@
       v-model="uiStore.sliderRows"
       :disabled="!hasChar"
       :min="0"
-      :max="80"
+      :max="sliderMax"
       :interval="1"
       :contained="true"
       :lazy="true"
       :drag-on-click="true"
-      :marks="[0, 80]"
+      :marks="[0, sliderMax]"
       @change="updateSkillsRows" />
   </div>
 </template>
@@ -38,6 +38,8 @@
       Object.values(team).some((selection) => selection.character !== null && selection.style !== null),
     )
   })
+
+  const sliderMax = computed(() => Math.max(80, uiStore.sliderRows + 20))
 </script>
 
 <style scoped>

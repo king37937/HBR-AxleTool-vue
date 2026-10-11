@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center h-auto">
     <button
       class="add-button"
-      :disabled="uiStore.sliderRows === 80 || (uiStore.sliderRows === 0 && !hasChar)"
+      :disabled="uiStore.sliderRows === 0 && !hasChar"
       @click="addRow">
       <img class="icon-img" src="@/assets/custom-icon/add_circle.svg" alt="Add a row" />
     </button>
@@ -20,14 +20,12 @@
   const uiStore = useUiStore()
 
   const addRow = () => {
-    if (uiStore.sliderRows < 80) {
-      uiStore.sliderRows++
-      skillStore.adjustSkills(uiStore.sliderRows)
-      nextTick(async () => {
-        await nextTick()
-        scrollToBottom()
-      })
-    }
+    uiStore.sliderRows++
+    skillStore.addRow()
+    nextTick(async () => {
+      await nextTick()
+      scrollToBottom()
+    })
   }
 
   const hasChar = computed(() => {
