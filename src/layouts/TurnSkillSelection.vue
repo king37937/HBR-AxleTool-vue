@@ -9,6 +9,8 @@
   import SelectAxleChar from '@/components/modal/SelectAxleChar.vue'
   import { getAssetsFile } from '@/utils/assets/getAssetsFile'
   import { getTargetOptions } from '@/utils/state-getters/getTargetOptions'
+  import { odOptions, getOdLevel } from '@/utils/axle/odOptions'
+  import { MAX_ROWS } from '@/utils/axle/axleLimits'
   import { isMobile } from '@/utils/browser/deviceDetector'
   import { cloneDeep } from 'lodash-es'
 
@@ -16,26 +18,7 @@
   const skillStore = useSkillStore()
   const charStore = useCharStore()
   const settingStore = useSettingStore()
-  const odOptions = [
-    'OD1',
-    'OD1/Bonus1',
-    'OD2',
-    'OD2/Bonus1',
-    'OD2/Bonus2',
-    'OD3',
-    'OD3/Bonus1',
-    'OD3/Bonus2',
-    'OD3/Bonus3',
-    'OD4',
-    'OD4/Bonus1',
-    'OD4/Bonus2',
-    'OD4/Bonus3',
-    'OD5',
-    'OD5/Bonus1',
-    'OD5/Bonus2',
-    'OD5/Bonus3',
-  ]
-  const options = Array.from({ length: 80 }, (_, i) => `T${i + 1}`)
+  const options = Array.from({ length: MAX_ROWS }, (_, i) => `T${i + 1}`)
   const formattedOptions = options.map((option) => {
     return {
       value: option,
@@ -49,6 +32,11 @@
   ]
 
   const activeComponent = ref({ row: null, buttonKey: null })
+
+  const getOdClass = (od) => {
+    const odLevel = getOdLevel(od)
+    return odLevel ? { [`od${odLevel.slice(2)}`]: true } : {}
+  }
   const handleBoxClick = (row, key) => {
     activeComponent.value = { row, buttonKey: key }
   }
@@ -350,12 +338,8 @@
       'container row-item',
       {
         'grid-disabled': turn.turn === 'Switch',
-        'od1': turn.od && turn.od.startsWith('OD1'),
-        'od2': turn.od && turn.od.startsWith('OD2'),
-        'od3': turn.od && turn.od.startsWith('OD3'),
-        'od4': turn.od && turn.od.startsWith('OD4'),
-        'od5': turn.od && turn.od.startsWith('OD5'),
       },
+      getOdClass(turn.od),
     ]">
     <button v-tooltip="'delete'" class="delete-button" @click="deleteRow(i)">
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">

@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center h-auto">
     <button
       class="add-button"
-      :disabled="uiStore.sliderRows === 80 || (uiStore.sliderRows === 0 && !hasChar)"
+      :disabled="uiStore.sliderRows === MAX_ROWS || (uiStore.sliderRows === 0 && !hasChar)"
       @click="addRow">
       <img class="icon-img" src="@/assets/custom-icon/add_circle.svg" alt="Add a row" />
     </button>
@@ -14,15 +14,16 @@
   import { useSkillStore } from '@/store/axle'
   import { useCharStore } from '@/store/char'
   import { useUiStore } from '@/store/ui'
+  import { MAX_ROWS } from '@/utils/axle/axleLimits'
 
   const skillStore = useSkillStore()
   const charStore = useCharStore()
   const uiStore = useUiStore()
 
   const addRow = () => {
-    if (uiStore.sliderRows < 80) {
+    if (uiStore.sliderRows < MAX_ROWS) {
       uiStore.sliderRows++
-      skillStore.adjustSkills(uiStore.sliderRows)
+      skillStore.addRow()
       nextTick(async () => {
         await nextTick()
         scrollToBottom()

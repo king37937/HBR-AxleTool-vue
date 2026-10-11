@@ -13,6 +13,7 @@
   import LoadingOverlay from '@/components/modal/LoadingOverlay.vue'
   import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
   import { scrollbarOptions } from '@/config/scrollbarConfig.js'
+  import { getOdLevel } from '@/utils/axle/odOptions'
 
   const isVisible = ref(false)
   onMounted(() => {
@@ -73,8 +74,8 @@
       OD5: 'rgba(177, 98, 237, 0.25)',
     }
     if (turnData.od) {
-      const odPrefix = turnData.od.slice(0, 3)
-      if (odPrefix in odColors) return odColors[odPrefix]
+      const odLevel = getOdLevel(turnData.od)
+      if (odLevel && odLevel in odColors) return odColors[odLevel]
     }
     return row % 2 === 0 ? 'rgba(33, 33, 33, 0.9)' : 'transparent'
   }

@@ -7,12 +7,12 @@
       v-model="uiStore.sliderRows"
       :disabled="!hasChar"
       :min="0"
-      :max="80"
+      :max="MAX_ROWS"
       :interval="1"
       :contained="true"
       :lazy="true"
       :drag-on-click="true"
-      :marks="[0, 80]"
+      :marks="[0, MAX_ROWS]"
       @change="updateSkillsRows" />
   </div>
 </template>
@@ -23,6 +23,7 @@
   import { useSkillStore } from '@/store/axle'
   import { useCharStore } from '@/store/char'
   import VueSlider from 'vue-slider-component'
+  import { MAX_ROWS } from '@/utils/axle/axleLimits'
   import '@/style/slider/slider.css'
 
   const uiStore = useUiStore()

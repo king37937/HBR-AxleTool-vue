@@ -68,13 +68,10 @@
       icon: 'earring-icon/explosion.webp',
     },
   ]
-  const spiritualOptions = [
-    { value: '1', name: '+1' },
-    { value: '2', name: '+2' },
-    { value: '3', name: '+3' },
-    { value: '4', name: '+4' },
-    { value: '5', name: '+5' },
-  ]
+  const spiritualOptions = Array.from({ length: 20 }, (_, i) => ({
+    value: `${i + 1}`,
+    name: `+${i + 1}`,
+  }))
   const rankOptions = Array.from({ length: 10 }, (_, i) => i + 1)
   const characterOptions = ref([])
   const styleOptions = ref([])
